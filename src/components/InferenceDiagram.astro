@@ -1,0 +1,40 @@
+<div class="diagram-wrap" role="img" aria-label="Conceptual flow of the inference gateway: incoming requests pass through a token-budget gate, queue and fairness-aware scheduler before reaching vLLM on a GPU. Client cancellations release queued work or active generation capacity.">
+  <svg class="inference-diagram" viewBox="0 0 920 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6" fill="none" stroke="#6d796f" stroke-width="1.2" /></marker>
+      <marker id="arrowAccent" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6" fill="none" stroke="#2e725c" stroke-width="1.2" /></marker>
+    </defs>
+    <g class="diagram-label"><text x="30" y="33">REQUEST PATH</text><text x="30" y="245">CANCELLATION PATH</text></g>
+    <g class="diagram-box">
+      <rect x="28" y="70" width="142" height="92" rx="10"/><text x="99" y="108" text-anchor="middle" class="diagram-title">Requests</text><text x="99" y="130" text-anchor="middle" class="diagram-sub">API clients</text>
+      <rect x="220" y="70" width="160" height="92" rx="10"/><text x="300" y="108" text-anchor="middle" class="diagram-title">Token gate</text><text x="300" y="130" text-anchor="middle" class="diagram-sub">Budget admission</text>
+      <rect x="430" y="70" width="142" height="92" rx="10"/><text x="501" y="108" text-anchor="middle" class="diagram-title">Queue</text><text x="501" y="130" text-anchor="middle" class="diagram-sub">Backpressure</text>
+      <rect x="620" y="70" width="142" height="92" rx="10"/><text x="691" y="108" text-anchor="middle" class="diagram-title">Scheduler</text><text x="691" y="130" text-anchor="middle" class="diagram-sub">Fair dispatch</text>
+      <rect x="810" y="70" width="82" height="92" rx="10" class="diagram-box-accent"/><text x="851" y="108" text-anchor="middle" class="diagram-title">GPU</text><text x="851" y="130" text-anchor="middle" class="diagram-sub">vLLM</text>
+    </g>
+    <g class="diagram-lines" fill="none" marker-end="url(#arrow)">
+      <path d="M170 116 H216"/><path d="M380 116 H426"/><path d="M572 116 H616"/><path d="M762 116 H806"/>
+    </g>
+    <g class="diagram-box diagram-cancel">
+      <rect x="220" y="270" width="160" height="62" rx="9"/><text x="300" y="296" text-anchor="middle" class="diagram-title">Client disconnect</text><text x="300" y="316" text-anchor="middle" class="diagram-sub">or timeout</text>
+      <rect x="620" y="270" width="272" height="62" rx="9"/><text x="756" y="296" text-anchor="middle" class="diagram-title">Cancel / reclaim capacity</text><text x="756" y="316" text-anchor="middle" class="diagram-sub">Evict queued work · abort generation</text>
+    </g>
+    <g class="diagram-lines accent-lines" fill="none" marker-end="url(#arrowAccent)">
+      <path d="M380 301 H616"/><path d="M756 266 V210 H691 V166" stroke-dasharray="5 5"/><path d="M756 210 H851 V166" stroke-dasharray="5 5"/>
+    </g>
+    <text x="456" y="290" class="diagram-small" text-anchor="middle">Cancellation signal</text>
+    <text x="30" y="350" class="diagram-footnote">Simplified view of the request path; not an exact deployment diagram.</text>
+  </svg>
+  <svg class="mobile-inference-diagram" viewBox="0 0 360 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs><marker id="mobileArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6" fill="none" stroke="#6d796f" stroke-width="1.2" /></marker></defs>
+    <g class="diagram-box">
+      <rect x="52" y="18" width="256" height="58" rx="9"/><text x="180" y="43" text-anchor="middle" class="diagram-title">Requests</text><text x="180" y="61" text-anchor="middle" class="diagram-sub">API clients</text>
+      <rect x="52" y="108" width="256" height="58" rx="9"/><text x="180" y="133" text-anchor="middle" class="diagram-title">Token-budget gate</text><text x="180" y="151" text-anchor="middle" class="diagram-sub">Admission control</text>
+      <rect x="52" y="198" width="256" height="58" rx="9"/><text x="180" y="223" text-anchor="middle" class="diagram-title">Queue + scheduler</text><text x="180" y="241" text-anchor="middle" class="diagram-sub">Backpressure · fair dispatch</text>
+      <rect x="52" y="288" width="256" height="58" rx="9" class="diagram-box-accent"/><text x="180" y="313" text-anchor="middle" class="diagram-title">vLLM on GPU</text><text x="180" y="331" text-anchor="middle" class="diagram-sub">Batched generation · KV cache</text>
+      <rect x="28" y="390" width="304" height="82" rx="9" class="diagram-cancel"/><text x="180" y="416" text-anchor="middle" class="diagram-title">Client disconnect or timeout</text><text x="180" y="438" text-anchor="middle" class="diagram-sub">Evict queued work · abort generation</text><text x="180" y="455" text-anchor="middle" class="diagram-sub">Reclaim available KV-cache capacity</text>
+    </g>
+    <g class="diagram-lines" fill="none" marker-end="url(#mobileArrow)"><path d="M180 76 V104"/><path d="M180 166 V194"/><path d="M180 256 V284"/><path d="M180 346 V386"/></g>
+    <text x="22" y="493" class="diagram-footnote">Conceptual flow; not a complete deployment diagram.</text>
+  </svg>
+</div>
