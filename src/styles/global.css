@@ -1284,6 +1284,7 @@ main {
   .footer-top,
   .footer-bottom {
     align-items: flex-start;
+    gap: 2px;
   }
 
   .footer-top {
