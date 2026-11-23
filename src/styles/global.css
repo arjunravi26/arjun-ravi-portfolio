@@ -84,7 +84,7 @@ a {
 
 .wordmark {
   font-size: 35px;
-  line-height: 2px;
+  line-height: 1.1px;
   font-weight: 700;
   letter-spacing: -0.04em;
   text-decoration: none;
@@ -141,7 +141,7 @@ main {
 .hero-layout {
   display: grid;
   grid-template-columns: 248px minmax(0, 1fr);
-  gap:  clamp(16px, 3vw, 32px);
+  gap: clamp(16px, 3vw, 32px);
   align-items: start;
 }
 
@@ -1284,6 +1284,15 @@ main {
   .footer-top,
   .footer-bottom {
     align-items: flex-start;
+  }
+
+  .footer-top {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer-top .wordmark {
+    white-space: nowrap;
   }
 
   .footer-bottom {
